@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+<section class="section-content padding-y bg">
+<div class="container">
+
+<!-- ============================ COMPONENT 1 ================================= -->
+<h4 class="text-center mb-20">Review Your Order and Make Payment</h4>
+<div class="row">
+	<aside class="col-lg-8">
+    <div class="card">
+    					<h5 class="card-header">Billing address </h5>
+    					<div class="card-body">
+    						<p class="card-text mb-0">{{order.full_name}}</p>
+                	<p class="card-text mb-0">{{order.full_address}}</p>
+                <p class="card-text mb-0">{{order.city}}, {{order.state}}</p>
+						<p class="card-text mb-0">{{order.country}}</p>
+						<p class="card-text mb-0">{{order.email}}</p>
+						<p class="card-text mb-0">{{order.phone}}</p>
+					<h4>	<b><p class="card-text mb-0">ORDER NUMBER:{{order.order_number}}</p></b></h4>
+            {% if order.order_note %}
+						Order Note:  {{order.order_note}}
+						{% endif %}
+
+    					</div>
+				<input type="hidden" name="" value="">
+      <div class="card">
+              					<h5 class="card-header">Payment method  </h5>
+              					<div class="card-body">
+              						<p class="card-text">Cash on delivery </p>
+
+              		</div>
+
+                  <div class="card">
+
+                					<h5 class="card-header">Review Products</h5>
+                					<div class="card-body">
+                						<table class="table table-borderless table-shopping-cart">
+                							<thead class="text-muted">
+                								<tr class="small text-uppercase">
+                									<th scope="col">Product</th>
+                									<th scope="col" width="120">Quantity</th>
+                									<th scope="col" width="120">Price</th>
+
+                								</tr>
+                							</thead>
+                							<tbody>
+
+                								{% for cart_item in cart_items %}
+                								<tr>
+                									<td>
+                										<figure class="itemside align-items-center">
+                											<div class="aside"><img src="{{ cart_item.product.images.url }}" class="img-sm"></div>
+                											<figcaption class="info">
+                												<a href="{{ cart_item.product.get_url }}" class="title text-dark">{{ cart_item.product.product_name }}</a>
+                												<p class="text-muted small">
+                													{% if cart_item.variations.all %}
+                													{% for item in cart_item.variations.all %}
+                													{{ item.variation_category | capfirst }} : {{ item.variation_value | capfirst }} <br>
+                													{% endfor %}
+                													{% endif %}
+                												</p>
+                											</figcaption>
+                										</figure>
+                									</td>
+                									<td>
+                										<!-- col.// -->
+                										<label for="">{{cart_item.quantity}}</label>
+                									</td>
+                									<td>
+                										<div class="price-wrap">
+                											<var class="price"> {{ cart_item.sub_total }}</var>
+                											<small class="text-muted">  {{ cart_item.product.price }} each </small>
+                										</div> <!-- price-wrap .// -->
+                									</td>
+
+                								</tr>
+                								{% endfor %}
+
+                							</tbody>
+                						</table>
+
+                					</div>
+                				</div>
+                		</div>
+	</aside> <!-- col.// -->
+	<aside class="col-lg-4">
+
+		<div class="card">
+		<div class="card-body">
+			<dl class="dlist-align">
+			  <dt>Total price:</dt>
+			  <dd class="text-right">{{total}}</dd>
+			</dl>
+			<dl class="dlist-align">
+			  <dt>Tax:</dt>
+			  <dd class="text-right">{{tax}}</dd>
+			</dl>
+			<dl class="dlist-align">
+			  <dt>Total:</dt>
+			  <dd class="text-right text-dark b"><strong>{{grand_total}}</strong></dd>
+			</dl>
+			<hr>
+			<p class="text-center mb-3">
+				<img src="{% static './images/misc/payments.png'%}" height="26">
+			</p>
+
+
+
+
+				<form id="myForm" method="GET" action="{% url 'payments' %}">
+				<div class="col form-group">
+    <h4><b>ENTER ORDER NUMNER: </b></h4><input type="text" name="field_name" placeholder="Enter Data" style="border: 1px solid #007BFF; padding: 5px;">
+		</div>
+
+    <button onclick="showAlert()" class= "btn btn-primary"  type="submit"  value="Submit" style="background-color: #007BFF; color: #fff; padding: 10px 20px; border: none;">Submit</button>
+</form>
+<script>
+        const form = document.getElementById('myForm');
+        const submitBtn = document.getElementById('submitBtn');
+				function showAlert(){
+<<<<<<< HEAD
+					var myTxt="Please confirm your order and wait for 15sec.";
+=======
+					var myTxt="Please confirm your order and wait for 15 sec.";
+>>>>>>> 4ea46dba74ea67bcdad5d7cbf1ac4bd0bf4e9683
+					alert(myTxt);
+				}
+
+        form.addEventListener('submit', function(event) {
+            if (!form.hasAttribute('data-submitted')) {
+                // Disable the form and the submit button
+                form.setAttribute('data-submitted', 'true');
+                submitBtn.disabled = true;
+            } else {
+                // If the form is already submitted, prevent the submission
+                event.preventDefault();
+            }
+        });
+    </script>
+
+
+
+		</div> <!-- card-body.// -->
+		</div> <!-- card.// -->
+
+</aside> <!-- col.// -->
+
+</div> <!-- row.// -->
+<!-- ============================ COMPONENT 1 END .// ================================= -->
+
+</div> <!-- container .//  -->
+</section>
+
+{% endblock %}
